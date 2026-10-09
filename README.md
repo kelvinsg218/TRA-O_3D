@@ -4,8 +4,8 @@
 
 Traço Studio (nome em desenvolvimento) é a loja online de dois sócios que fabricam e vendem peças impressas em 3D.
 O site reúne em um só lugar o **catálogo de produtos prontos**, os **pedidos personalizados** — da ideia do cliente
-até a aprovação do projeto e o aceite do orçamento — e as **propostas de produtos enviadas por parceiros**, com
-conversa privada entre cada pessoa e a equipe.
+até a aprovação do projeto e o aceite do orçamento — e as **propostas de produtos enviadas por parceiros
+convidados**, com proposta comercial, faixa de preço e conversa privada entre cada pessoa e a equipe.
 
 ![Catálogo com filtros por categoria](docs/images/catalogo.webp)
 
@@ -64,11 +64,15 @@ e a equipe recalcula custos à mão. O objetivo do projeto é organizar esse pro
 |---|---|
 | ![Lista de pedidos da equipe com filtros](docs/images/inbox-equipe.webp) | <img src="docs/images/custos-reutilizaveis.webp" alt="Cadastro de impressora, materiais e parâmetros de custo versionados" width="520"> |
 
-### Parceiros que propõem produtos
+**Cupons configuráveis: percentual, modalidade (uso único ou boas-vindas), escopo e validade**
 
-| Área do parceiro: proposta enviada e simulação | Análise da proposta pela equipe |
+<img src="docs/images/cupons-configuraveis.webp" alt="Cadastro de cupom com percentual, modalidade, escopo e lista de cupons com uso" width="620">
+
+### Parceiros convidados e proposta comercial
+
+| Condições comerciais (equipe) — valores de exemplo | Calculadora do parceiro: escolha do preço na faixa |
 |---|---|
-| ![Proposta do parceiro com simulação e preço de fabricação aguardando orçamento](docs/images/parceiro-proposta.webp) | ![Painel da equipe com decisões sobre a proposta e conversa](docs/images/equipe-proposta.webp) |
+| <img src="docs/images/condicoes-comerciais.webp" alt="Política comercial com remuneração, teto do parceiro, promoção máxima e modalidades de pagamento de exemplo" width="520"> | <img src="docs/images/parceiro-calculadora.webp" alt="Proposta comercial do parceiro com preço digitado, acréscimo por unidade e botões de aceitar ou pedir revisão" width="420"> |
 
 **Divulgação: QR Code da loja, marcado como teste enquanto não há domínio público**
 
@@ -102,10 +106,15 @@ e a equipe recalcula custos à mão. O objetivo do projeto é organizar esse pro
 - Trocar o CEP de um pedido com orçamento em aberto faz a equipe recalcular o frete; depois do aceite, só por
   revisão comercial.
 
-**Cupons de 5%**
-- Códigos criados pela equipe, com validade opcional; o desconto é sempre de 5% sobre os itens, nunca sobre o frete.
-- O cliente confere o cupom antes de enviar o pedido ou o aplica no orçamento, o que gera uma nova versão.
-- Nenhum desconto é aplicado automaticamente por acessar um link ou QR Code.
+**Cupons configuráveis**
+- A equipe define o percentual (por exemplo 5% ou 10%), a modalidade — **uso único** (opcionalmente de uma conta) ou
+  **boas-vindas** (um uso por conta, antes da primeira compra paga) —, onde vale, a validade e a ativação.
+- Desconto só sobre os itens, nunca sobre o frete; um cupom por pedido. As condições de um cupom não mudam depois de
+  criado. Antes de ativar, a equipe vê em quais produtos o percentual não é suportado.
+- Conferir o código não consome o cupom: o consumo fica para a confirmação do pagamento (ainda inexistente), com
+  proteção contra uso simultâneo.
+- Se o cupom não vale para o produto, o cliente é avisado antes de confirmar. Nenhum desconto é aplicado
+  automaticamente por acessar um link ou QR Code.
 
 **Pedidos personalizados**
 - Descrição da ideia, finalidade, medidas, quantidade e preferências; fotos de referência e arquivo STL opcionais.
@@ -139,11 +148,23 @@ e a equipe recalcula custos à mão. O objetivo do projeto é organizar esse pro
   já confirmado, e não dá acesso administrativo.
 - Na área do parceiro: criar proposta (descrição, finalidade, medidas, materiais, cores, fotos de referência e STL
   privados, preço desejado), acompanhar a situação e o próximo passo e conversar com a equipe.
-- A equipe analisa, pede ajustes, envia apresentação e um orçamento de fabricação informativo, aprova tecnicamente ou
-  recusa com explicação. Mudança depois da aprovação exige nova versão.
-- A simulação do parceiro usa só os dados dele; o preço de fabricação aparece apenas quando a equipe envia um
-  orçamento. Não há saldo, carteira, comissão ou divisão de receita.
-- Uma proposta aprovada pode virar **rascunho de produto** (sem preço e sem fotos), com a publicação bloqueada.
+- A equipe analisa, pede ajustes, envia apresentação, aprova tecnicamente ou recusa com explicação. Mudança depois
+  da aprovação exige nova versão.
+
+**Proposta comercial e faixa de preço**
+- A equipe configura a política comercial (remuneração da loja, teto do acréscimo do parceiro, maior promoção
+  prevista, taxas de pagamento estimadas ou confirmadas) e pode simular cenários antes de salvar.
+- Para cada produto aprovado, a equipe confirma consumo, tempo e acabamento; o sistema calcula o **preço-base** que
+  cobre custos, despesas e a remuneração configurada, e a **faixa** que o parceiro pode escolher. A prévia na tela é
+  o mesmo documento do PDF.
+- A proposta é enviada em versões que não mudam depois do envio, registrada na conversa e por email com o PDF. O
+  parceiro escolhe o preço num campo numérico (com controle deslizante opcional), vê quanto recebe por unidade e aceita
+  ou pede revisão. Preço fora da faixa é recusado pelo servidor.
+- Cupons aceitos num produto de parceiro saem da parcela da loja: o acréscimo escolhido pelo parceiro é preservado.
+- O pedido guarda a divisão por item; os valores do parceiro são apurados nas vendas pagas — **sem saque nem repasse**
+  por enquanto.
+- A proposta aprovada vira rascunho de produto; a **publicação** exige as condições aceitas aplicadas ao produto e a
+  autorização de comercialização do proprietário (contrato e fiscal ficam fora do sistema).
 
 **Divulgação por QR Code**
 - QR Code geral da loja para adesivos, apontando para uma entrada estável que permite mudar o destino sem reimprimir.
@@ -192,17 +213,17 @@ versões, idempotência). Operações críticas usam transações e travas no ba
 | Funcionalidades acima | Implementadas e funcionando em ambiente local |
 | Testes automatizados | Unidade, integração (banco de testes isolado) e ponta a ponta no navegador, executados com sucesso na última rodada |
 | Validação manual pelos sócios | Em andamento |
-| Venda de produtos de parceiros | **Pendente** — a publicação depende de definição comercial (remuneração, autorização de venda, contrato) |
+| Venda de produtos de parceiros | **Pendente** — ferramentas prontas; falta a decisão comercial dos sócios (valores da política, contrato, fiscal) e a autorização de comercialização |
 | Pagamento online | **Não implementado** — sem gateway, sem cobrança |
-| Saque e repasses | **Não implementados** |
-| Hospedagem e domínio | **Não publicados** — arquitetura e procedimento de implantação preparados, aguardando decisão |
+| Saque e repasses ao parceiro | **Não implementados** (os valores só são apurados) |
+| Publicação em produção (hospedagem e domínio) | **Pendente** — arquitetura e procedimento de implantação preparados, aguardando decisão |
 | Email transacional real | **Não configurado** — hoje os emails são capturados localmente |
 | QR Code de divulgação | **Apenas de teste** (gerado localmente, sem domínio público) |
 
 ## Próximas etapas
 
 1. Concluir a validação manual e ajustar o que aparecer.
-2. Definir as condições comerciais para produtos de parceiros.
+2. Preencher a política comercial e decidir contrato, fiscal e repasse para produtos de parceiros.
 3. Hospedagem, domínio e email transacional real, com verificação em ambiente publicado; QR Code definitivo.
 4. Integração com gateway de pagamento, com confirmação verificável pelo servidor.
 5. Depois: carrinho e estoque, produção e prazos, envio e rastreio, avaliações.
